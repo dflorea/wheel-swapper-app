@@ -10,7 +10,12 @@ st.title("🛞 Gemini AI Wheel Swapper")
 st.subheader("Upload a car and your dream wheels to see the magic.")
 
 # 2. Get API Key (From Render Environment Variables or local)
-api_key = st.secrets.get("GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEY")
+#api_key = st.secrets.get("GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEY")
+import os
+# ... other imports ...
+
+# Get the key directly from the system environment
+api_key = os.environ.get("GEMINI_API_KEY")
 
 if not api_key:
     st.error("Please set the GEMINI_API_KEY in your secrets/environment.")
