@@ -57,18 +57,27 @@ if car_file and wheel_file:
                 #    ],
                 #    config=types.GenerateContentConfig(response_modalities=["IMAGE"])
                 #)
+
+                # Use clear tags to tell the AI which image is which
+                contents=[
+                    "This is the [BASE_IMAGE] of a car:", car_img,
+                    "These are the [NEW_WHEELS] to use:", wheel_img,
+                    """TASK: 
+                    1. Start with [BASE_IMAGE]. 
+                    2. Identify the wheels currently on the car in [BASE_IMAGE].
+                    3. Remove only those wheels and tires.
+                    4. Replace them with the specific wheel design shown in [NEW_WHEELS].
+                    5. CRITICAL: Do not change the car's body, the background, or the lighting of [BASE_IMAGE]. 
+                    6. Output only the modified [BASE_IMAGE]."""
+                ]
                 response = client.models.generate_content(
-                        model="gemini-3-pro-image-preview",
-                        contents=[
-                                "Image A (Source):", car_img,
-                                "Image B (Wheels):", wheel_img,
-                                """Task: Perform a localized edit on Image A. 
-                                1. Keep the car's body, color, lighting, and entire background EXACTLY as they appear in Image A.
-                                2. Replace ONLY the wheels and tires in Image A with the style shown in Image B.
-                                3. Match the angle and perspective of the original wheels.
-                                4. Do not generate a new car; edit the existing car from Image A."""
-                        ],
-                        config=types.GenerateContentConfig(response_modalities=["IMAGE"])
+                    model="gemini-3-pro-image-preview",
+                    contents=contents,
+                    config=types.GenerateContentConfig(
+                        response_modalities=["IMAGE"],
+                        # Low temperature helps prevent 'creative' hallucination
+                        temperature=0.3 
+                    )
                 )
 
                 # Display Result
