@@ -68,15 +68,19 @@ if car_file and wheel_file:
                     3. Inpaint the new wheel design from the WHEEL REFERENCE into those exact positions on the car.
                     4. Maintain the car's body, the lighting, and the original background from the PRIMARY CANVAS perfectly.
                     5. Ensure the new wheels inherit the shadows and reflections present in the PRIMARY CANVAS.
-                    6. DO NOT return the WHEEL REFERENCE image. Output only the modified PRIMARY CANVAS."""
+                    6. DO NOT return the WHEEL REFERENCE image. Output only the modified PRIMARY CANVAS.
+                    7. The resulting image must have the same dimensions and framing as PRIMARY CANVAS."""
                 ]
                 response = client.models.generate_content(
                     model="gemini-3-pro-image-preview",
                     contents=contents,
-                    config=types.GenerateContentConfig(
+                    config = types.GenerateContentConfig(
                         response_modalities=["IMAGE"],
-                        # Low temperature helps prevent 'creative' hallucination
-                        temperature=0.3 
+                        image_config=types.ImageConfig(
+                            # Try to match your car's shape (usually '16:9' or '4:3')
+                            aspect_ratio="16:9", 
+                            image_size="1K"
+                        )
                     )
                 )
 
