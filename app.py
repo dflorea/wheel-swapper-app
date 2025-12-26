@@ -60,15 +60,15 @@ if car_file and wheel_file:
 
                 # Use clear tags to tell the AI which image is which
                 contents=[
-                    "This is the [BASE_IMAGE] of a car:", car_img,
-                    "These are the [NEW_WHEELS] to use:", wheel_img,
-                    """TASK: 
-                    1. Start with [BASE_IMAGE]. 
-                    2. Identify the wheels currently on the car in [BASE_IMAGE].
-                    3. Remove only those wheels and tires.
-                    4. Replace them with the specific wheel design shown in [NEW_WHEELS].
-                    5. CRITICAL: Do not change the car's body, the background, or the lighting of [BASE_IMAGE]. 
-                    6. Output only the modified [BASE_IMAGE]."""
+                    "PRIMARY CANVAS (Image A):", car_img,
+                    "WHEEL REFERENCE (Image B):", wheel_img,
+                    """INSTRUCTION: 
+                    1. Focus on the wheels located on the car in the PRIMARY CANVAS.
+                    2. Perform an INPAINTING task to remove those specific wheels.
+                    3. Inpaint the new wheel design from the WHEEL REFERENCE into those exact positions on the car.
+                    4. Maintain the car's body, the lighting, and the original background from the PRIMARY CANVAS perfectly.
+                    5. Ensure the new wheels inherit the shadows and reflections present in the PRIMARY CANVAS.
+                    6. DO NOT return the WHEEL REFERENCE image. Output only the modified PRIMARY CANVAS."""
                 ]
                 response = client.models.generate_content(
                     model="gemini-3-pro-image-preview",
