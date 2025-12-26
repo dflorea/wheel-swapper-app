@@ -57,19 +57,19 @@ if car_file and wheel_file:
                 #    ],
                 #    config=types.GenerateContentConfig(response_modalities=["IMAGE"])
                 #)
-		response = client.models.generate_content(
-    			model="gemini-3-pro-image-preview",
-    			contents=[
-        			"Image A (Source):", car_img,
-        			"Image B (Wheels):", wheel_img,
-        			"""Task: Perform a localized edit on Image A. 
-        			1. Keep the car's body, color, lighting, and entire background EXACTLY as they appear in Image A.
-        			2. Replace ONLY the wheels and tires in Image A with the style shown in Image B.
-        			3. Match the angle and perspective of the original wheels.
-        			4. Do not generate a new car; edit the existing car from Image A."""
-    			],
-    			config=types.GenerateContentConfig(response_modalities=["IMAGE"])
-		)
+                response = client.models.generate_content(
+                        model="gemini-3-pro-image-preview",
+                        contents=[
+                                "Image A (Source):", car_img,
+                                "Image B (Wheels):", wheel_img,
+                                """Task: Perform a localized edit on Image A. 
+                                1. Keep the car's body, color, lighting, and entire background EXACTLY as they appear in Image A.
+                                2. Replace ONLY the wheels and tires in Image A with the style shown in Image B.
+                                3. Match the angle and perspective of the original wheels.
+                                4. Do not generate a new car; edit the existing car from Image A."""
+                        ],
+                        config=types.GenerateContentConfig(response_modalities=["IMAGE"])
+                )
 
                 # Display Result
                 for part in response.candidates[0].content.parts:
