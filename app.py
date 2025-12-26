@@ -5,8 +5,8 @@ from PIL import Image
 import os
 
 # 1. UI Configuration
-st.set_page_config(page_title="Gemini Wheel Swapper", page_icon="🛞")
-st.title("🛞 Gemini AI Wheel Swapper")
+st.set_page_config(page_title="The Wheel Swapper", page_icon="🛞")
+st.title("🛞 The AI Wheel Swapper")
 st.subheader("Upload a car and your dream wheels to see the magic.")
 
 # 2. Get API Key (From Render Environment Variables or local)
@@ -39,7 +39,7 @@ with col2:
 # 4. Action Button
 if car_file and wheel_file:
     if st.button("🪄 Swap Wheels Now"):
-        with st.spinner("Gemini is working its magic..."):
+        with st.spinner("AI working its magic..."):
             try:
                 # Convert uploaded files to PIL Images
                 car_img = Image.open(car_file)
