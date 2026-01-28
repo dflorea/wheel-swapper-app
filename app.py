@@ -75,13 +75,24 @@ if car_file and wheel_file:
                     "PRIMARY CANVAS (Image A):", car_img,
                     "WHEEL REFERENCE (Image B):", wheel_img,
                     """INSTRUCTION: 
-                    1. Focus on the wheels located on the car in the PRIMARY CANVAS.
-                    2. Perform an INPAINTING task to remove those specific wheels.
-                    3. Inpaint the new wheel design from the WHEEL REFERENCE into those exact positions on the car.
-                    4. Maintain the car's body, the lighting, and the original background from the PRIMARY CANVAS perfectly.
-                    5. Ensure the new wheels inherit the shadows and reflections present in the PRIMARY CANVAS.
-                    6. DO NOT return the WHEEL REFERENCE image. Output only the modified PRIMARY CANVAS.
-                    7. The resulting image must have the same dimensions and framing as PRIMARY CANVAS."""
+    Your task is to perform a highly precise wheel swap.
+
+    **Core Task:**
+    1. Identify and select ONLY the wheels on the car in the PRIMARY CANVAS.
+    2. Perform a perfect INPAINTING task, replacing the original wheels with the new wheel design from the WHEEL REFERENCE.
+
+    **Strict Rules for Preservation (What NOT to change):**
+    - **Braking System:** DO NOT alter the brake calipers, brake discs, or any part of the braking system visible behind the wheel. Their color, shape, and position must remain identical to the PRIMARY CANVAS.
+    - **Car Body & Background:** The car's body, paint, and the entire background must be perfectly preserved from the PRIMARY CANVAS.
+    - **Lighting & Physics:** The new wheels must perfectly inherit the lighting, shadows, and reflections of the original scene.
+
+    **Strict Rules for Accuracy (What to change):**
+    - **Wheel Fidelity:** Replicate the wheel from the WHEEL REFERENCE with 100% accuracy. This includes the exact number of spokes, the center cap design, lug nuts, and all other details. The wheel should not be a "similar" design; it must be the *exact* design.
+
+    **Final Output:**
+    - The resulting image must have the same dimensions as the PRIMARY CANVAS.
+    - Output only the single, modified image.
+    """""
                 ]
                 response = client.models.generate_content(
                     model="gemini-3-pro-image-preview",
