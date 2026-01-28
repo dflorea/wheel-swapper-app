@@ -24,17 +24,29 @@ if not api_key:
 client = genai.Client(api_key=api_key)
 
 # 3. Frontend: File Uploaders
+st.info("Note: The maximum upload size is 200MB per file. You can configure this in your Streamlit settings.")
 col1, col2 = st.columns(2)
+
+# Define the maximum file size in bytes (200MB)
+MAX_FILE_SIZE = 200 * 1024 * 1024
 
 with col1:
     car_file = st.file_uploader("Step 1: Upload Car Photo", type=['jpg', 'jpeg', 'png'])
     if car_file:
-        st.image(car_file, caption="The Base Car", use_container_width=True)
+        if car_file.size > MAX_FILE_SIZE:
+            st.error(f"The car image is too large. Please upload an image smaller than 200MB.")
+            car_file = None  # Reset the file uploader
+        else:
+            st.image(car_file, caption="The Base Car", use_container_width=True)
 
 with col2:
     wheel_file = st.file_uploader("Step 2: Upload Wheels Photo", type=['jpg', 'jpeg', 'png'])
     if wheel_file:
-        st.image(wheel_file, caption="The New Wheels", use_container_width=True)
+        if wheel_file.size > MAX_FILE_SIZE:
+            st.error(f"The wheel image is too large. Please upload an image smaller than 200MB.")
+            wheel_file = None  # Reset the file uploader
+        else:
+            st.image(wheel_file, caption="The New Wheels", use_container_width=True)
 
 # 4. Action Button
 if car_file and wheel_file:
